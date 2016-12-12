@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GuestApp</string>
+    <string name="create_order">Create Order</string>
+</resources>
