@@ -28,10 +28,9 @@
 
     </LinearLayout>
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_weight="1"
-            android:name="com.google.android.gms.maps.MapFragment"
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+    <RelativeLayout
+        android:layout_weight="1"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
 </LinearLayout>

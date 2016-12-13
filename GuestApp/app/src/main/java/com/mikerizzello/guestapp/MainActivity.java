@@ -28,6 +28,8 @@ import com.mikerizzello.guestapp.managers.LocationManager;
 import com.mikerizzello.guestapp.models.Order;
 import com.mikerizzello.guestapp.models.OrderLocation;
 
+import java.util.Locale;
+
 import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -54,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mMapFragment == null) {
             mMapFragment = SupportMapFragment.newInstance();
             mMapFragment.getMapAsync(this);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.map, mMapFragment)
+                    .commit();
         }
 
         Button createOrderButton = (Button)findViewById(R.id.create_order);
@@ -73,19 +79,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
-
-            return;
-        }
-
         LatLng userPosition = new LatLng(LocationManager.getInstance().getGpsTracker().getLatitude(), LocationManager.getInstance().getGpsTracker().getLongitude());
 
         this.googleMap = googleMap;
@@ -104,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (response.length() > 0)
                 {
                     DataManager.getInstance().setCurrentOrder(new Order(response));
+
+                    String stringOrderId = String.format(Locale.CANADA, "%d", DataManager.getInstance().getCurrentOrder().getOrderID());
+                    orderIdLabel.setText(stringOrderId);
                 }
             }
 
@@ -133,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 {
                     DataManager.getInstance().getCurrentOrder().setOrderLocation(new OrderLocation(response));
                     LatLng location = DataManager.getInstance().getCurrentOrder().getOrderLocation().getOrderLocation();
+
+                    if (location == null) return;
 
                     if (marker == null)
                     {
