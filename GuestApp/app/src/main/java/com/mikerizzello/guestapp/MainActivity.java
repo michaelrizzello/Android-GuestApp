@@ -1,15 +1,11 @@
 package com.mikerizzello.guestapp;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -73,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+//        DataManager.getInstance().setCurrentOrder(new Order(790));
+
         createPoll();
     }
 
@@ -127,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 if (response.length() > 0)
                 {
+
+
                     DataManager.getInstance().getCurrentOrder().setOrderLocation(new OrderLocation(response));
                     LatLng location = DataManager.getInstance().getCurrentOrder().getOrderLocation().getOrderLocation();
 
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     else {
                         marker.setPosition(location);
                     }
-
+                    
                     showOrderLocation(location);
                 }
             }

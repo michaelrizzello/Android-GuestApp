@@ -17,6 +17,10 @@ public class Order {
     {
         this.orderID = 0;
     }
+    public Order(int orderID)
+    {
+        this.orderID = orderID;
+    }
 
     public Order(JSONObject jsonObject)
     {
